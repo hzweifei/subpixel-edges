@@ -1,5 +1,5 @@
 import numpy as np
-
+import cv2
 from subpixel_edges.final_detector_iter0 import main_iter0
 from subpixel_edges.final_detector_iter1 import main_iter1
 from subpixel_edges.final_detector_iterN import main_iterN
@@ -18,7 +18,7 @@ def init():
     subpixel_edges(img, 15, 2, 2)
 
 
-def subpixel_edges(img, threshold, iters, order):
+def subpixel_edges(img, threshold, iters, order,mask=None):
     """
     Detects subpixel features for each pixel belonging to an edge in `img`.
 
@@ -50,11 +50,25 @@ def subpixel_edges(img, threshold, iters, order):
         Specifies the order of the edges to find:
             1:  first order edges (straight lines)
             2:  second order edges (default)
-
+    mask: Remove unnecessary masked regions(2D)
     Returns
     -------
     An instance of EdgePixel
     """
+
+    # 检查图像是否是灰度图（即图像的维度为 2D）
+    if len(img.shape) == 2:
+        pass
+    elif len(img.shape) == 3:
+        # 将彩色图像转换为灰度图
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    else:
+        raise ValueError("图像格式不正确")
+    # 检查 mask 是否与图像大小一致
+    if mask is not None:
+        if img.shape != mask.shape:
+            raise ValueError("mask与图像大小不一致")
+
     if iters == 0:
         return main_iter0(img, threshold, iters, order)
     elif iters == 1:
