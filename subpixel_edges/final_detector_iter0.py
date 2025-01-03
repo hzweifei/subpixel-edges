@@ -4,7 +4,7 @@ from subpixel_edges.edgepixel import EdgePixel
 from subpixel_edges.edges_iter0 import h_edges, v_edges
 
 
-def main_iter0(F, threshold, iters, order):
+def main_iter0(F, threshold, order, mask):
     ep = EdgePixel()
 
     rows, cols = np.shape(F)
@@ -35,6 +35,10 @@ def main_iter0(F, threshold, iters, order):
         abs_Fx_inner >= np.abs(Fx[2: rows - 2, 4: cols - 6]),
         abs_Fx_inner > np.abs(Fx[2: rows - 2, 6: cols - 4])
     ])
+
+    if mask is not None:
+        Ey[~mask] = False
+        Ex[~mask] = False
 
     Ey = Ey.ravel('F')
     Ex = Ex.ravel('F')

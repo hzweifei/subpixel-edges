@@ -70,9 +70,9 @@ def subpixel_edges(img, threshold, iters, order,mask=None):
             raise ValueError("mask与图像大小不一致")
 
     if iters == 0:
-        return main_iter0(img, threshold, iters, order)
+        return main_iter0(img, threshold, order, mask)
     elif iters == 1:
-        return main_iter1(img, threshold, iters, order)
+        return main_iter1(img, threshold, order, mask)
     elif iters > 1:
         for iterN in range(iters):
             ep, img = main_iterN(img, threshold, iters, order)

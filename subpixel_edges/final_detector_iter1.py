@@ -5,7 +5,7 @@ from subpixel_edges.edgepixel import EdgePixel
 from subpixel_edges.edges_iter1 import h_edges, v_edges
 
 
-def main_iter1(F, threshold, iters, order):
+def main_iter1(F, threshold, order,mask):
     # smooth image
     H = np.ones((3, 3), np.float32) / 9
     w = (1 + 24 * H[1, 2] + 48 * H[1, 1]) / 12
@@ -43,6 +43,10 @@ def main_iter1(F, threshold, iters, order):
         absGxInner >= np.abs(Gx[2: rows - 2, 4: cols - 6]),
         absGxInner > np.abs(Gx[2: rows - 2, 6: cols - 4])
     ])
+    if mask is not None:
+        Ey[~mask] = False
+        Ex[~mask] = False
+
 
     Ey = Ey.ravel('F')
     Ex = Ex.ravel('F')
