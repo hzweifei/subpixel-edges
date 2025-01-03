@@ -1,5 +1,5 @@
 import numpy as np
-
+import cv2
 from subpixel_edges.edgepixel import EdgePixel
 from subpixel_edges.edges_iterN import h_edges, v_edges
 
@@ -20,12 +20,11 @@ def main_iterN(F, threshold, iters, order):
                                  F[1:rows - 1, 0:cols - 2] + F[1:rows - 1, 1:cols - 1] + F[1:rows - 1, 2:cols] +
                                  F[2:rows, 0:cols - 2] + F[2:rows, 1:cols - 1] + F[2:rows, 2:cols]) / 9
 
-    # compute partial derivatives
-    Gx = np.zeros((rows, cols))
-    Gx[0: rows, 1: cols - 1] = 0.5 * (G[0: rows, 2: cols] - G[0: rows, 0: cols - 2])
-    Gy = np.zeros((rows, cols))
-    Gy[1: rows - 1, 0: cols] = 0.5 * (G[2: rows, 0: cols] - G[0: rows - 2, 0: cols])
-    grad = np.sqrt(Gx ** 2 + Gy ** 2)
+    # use sobel
+    Gx = cv2.Sobel(G, cv2.CV_64F, 1, 0, ksize=3)  # x 方向梯度
+    Gy = cv2.Sobel(G, cv2.CV_64F, 0, 1, ksize=3)  # y 方向梯度
+    # 计算幅值
+    grad = cv2.magnitude(Gx, Gy)
 
     # detect edge pixels with maximum Gy (not including margins)
     absGyInner = np.abs(Gy[5:rows - 5, 2: cols - 2])

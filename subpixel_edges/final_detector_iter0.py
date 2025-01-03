@@ -1,5 +1,5 @@
 import numpy as np
-
+import cv2
 from subpixel_edges.edgepixel import EdgePixel
 from subpixel_edges.edges_iter0 import h_edges, v_edges
 
@@ -10,11 +10,11 @@ def main_iter0(F, threshold, iters, order):
     rows, cols = np.shape(F)
     [x, y] = np.meshgrid(np.arange(cols), np.arange(rows))
 
-    Fx = np.zeros((rows, cols))
-    Fx[0: rows, 1: cols - 1] = 0.5 * (F[0: rows, 2: cols] - F[0: rows, 0: cols - 2])
-    Fy = np.zeros((rows, cols))
-    Fy[1: rows - 1, 0: cols] = 0.5 * (F[2: rows, 0: cols] - F[0: rows - 2, 0: cols])
-    grad = np.sqrt(Fx ** 2 + Fy ** 2)
+    # use sobel
+    Fx = cv2.Sobel(F, cv2.CV_64F, 1, 0, ksize=3)  # x 方向梯度
+    Fy = cv2.Sobel(F, cv2.CV_64F, 0, 1, ksize=3)  # y 方向梯度
+    # 计算幅值
+    grad = cv2.magnitude(Fx, Fy)
 
     abs_Fy_inner = np.abs(Fy[5:rows - 5, 2: cols - 2])
     abs_Fx_inner = np.abs(Fx[2:rows - 2, 5: cols - 5])

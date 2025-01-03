@@ -7,7 +7,7 @@ import time
 if __name__=="__main__":
     image=cv2.imread("circle.jpg",cv2.IMREAD_GRAYSCALE)
     start=time.time()
-    e = subpixel_edges(image, 50, 0, 2)
+    e = subpixel_edges(image, 50, 1, 2)
     end=time.time()
     print(f"检测所需时间为：{end-start} s")
     points=np.column_stack((e.x, e.y)).astype(np.float32)
