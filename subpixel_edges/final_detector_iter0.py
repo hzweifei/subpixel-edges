@@ -96,5 +96,6 @@ def main_iter0(F, threshold, order, mask):
     ep.i1 = np.delete(ep.i1, index_to_erase)
     ep.position = np.delete(ep.position, index_to_erase)
     ep.curv = np.delete(ep.curv, index_to_erase)
+    ep.sub_position=np.column_stack((ep.x, ep.y)).astype(np.float32)
 
     return ep

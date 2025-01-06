@@ -88,7 +88,8 @@ if __name__ == "__main__":
     # 调用绘制椭圆函数
     img_with_circle = draw_accurate_circle(img, (120.69, 130.35), 95.5)
     cv2.imwrite("/circle.jpg", img_with_circle)
-
+    # plt.imshow(img_with_circle)
+    # plt.show()
     # # 绘制标定图案
     # img_2=draw_circle_pattern(img,(7,7),30,100)
     # plt.imshow(img_2)

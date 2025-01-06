@@ -17,7 +17,7 @@ class EdgePixel:
     i0, i1:
         intensities at both sides
     """
-    def __init__(self, position=None, x=None, y=None, nx=None, ny=None, curv=None, i0=None, i1=None):
+    def __init__(self, position=None, x=None, y=None, nx=None, ny=None, curv=None, i0=None, i1=None,sub_position=None):
         
         self.position = position  # 1D index inside image
         self.x = x                # X subpixel position
@@ -27,6 +27,7 @@ class EdgePixel:
         self.curv = curv          # curvature
         self.i0 = i0              # intensities
         self.i1 = i1              # intensities
+        self.sub_position = sub_position # Nx2D (c,r)
 
     def save(self, filename, format='npz'):
         if format == 'npz':

@@ -77,5 +77,6 @@ def main_iter1(F, threshold, order,mask):
     ep.curv = np.concatenate((curv_y, curv_x), axis=0)
     ep.i0 = np.concatenate((i0_y, i0_x), axis=0)
     ep.i1 = np.concatenate((i1_y, i1_x), axis=0)
+    ep.sub_position = np.column_stack((ep.x, ep.y)).astype(np.float32)
 
     return ep

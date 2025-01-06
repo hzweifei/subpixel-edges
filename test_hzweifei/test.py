@@ -11,7 +11,8 @@ if __name__=="__main__":
     print(1/np.mean(np.abs(e.curv)))
     end=time.time()
     print(f"检测所需时间为：{end-start} s")
-    points=np.column_stack((e.x, e.y)).astype(np.float32)
+    # points=np.column_stack((e.x, e.y)).astype(np.float32)
+    points=e.sub_position
     ellipse = cv2.fitEllipseAMS(points)
     # 输出拟合结果
     print(
