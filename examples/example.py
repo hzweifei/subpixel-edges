@@ -14,8 +14,8 @@ if __name__ == '__main__':
     img = cv2.imread(os.path.join(this_path, 'images/ring_noise.tif'))
     img_gray = (cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)).astype(float)
 
-    iters = 2
-    threshold = 25
+    iters = 1
+    threshold =155
     order = 2
 
     print("Initializing...")

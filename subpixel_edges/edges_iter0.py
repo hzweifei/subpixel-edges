@@ -39,7 +39,7 @@ def h_edges(F, rows, Fx, Fy, edges, order):
             max_l2 = 3
             min_r1 = -3
 
-        if np.abs(Fx[edge]) < 1:
+        if np.abs(Fx[edge]) < 10:
             l1 = -1
             l2 = 1
             r1 = -1
@@ -138,7 +138,7 @@ def v_edges(F, rows, Fx, Fy, edges, order):
             max_l2 = 3
             min_r1 = -3
 
-        if np.abs(Fy[edge]) < 1:
+        if np.abs(Fy[edge]) < 10:
             l1 = -1
             l2 = 1
             r1 = -1
