@@ -409,3 +409,18 @@ def v_edges(x, y, F, G, rows, Gx, Gy, w, maxValidOffset, edges, order, threshold
 
     return edges, x.transpose().ravel(), y.transpose().ravel(), nx.transpose().ravel(), ny.transpose().ravel(), \
            curv.reshape((-1,)), i0.transpose().ravel(), i1.transpose().ravel()
+
+@njit(cache=True)
+def non_maximum_suppression(grad, Ey):
+    r, c = grad.shape
+    for i in range(1, r-1):  # 从1到r-1，避免处理边界
+        for j in range(1, c-1):  # 从1到c-1，避免处理边界
+            if Ey[i, j]:  # 如果Ey矩阵中对应的位置为True
+                current_grad = grad[i, j]  # 获取当前点的梯度值
+                # 获取当前点的3x3邻域
+                neighbor_gradients = grad[i-1:i+2, j-1:j+2]
+                # 如果当前梯度大于邻域中的最大值，则保留该点
+                if current_grad >= np.max(neighbor_gradients):
+                    Ey[i-1:i+2, j-1:j+2] = False  # 将邻域中的点设置为False
+                    Ey[i, j] = True  # 保留当前点
+    return Ey

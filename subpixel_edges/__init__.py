@@ -18,7 +18,7 @@ def init():
     subpixel_edges(img, 15, 2, 2)
 
 
-def subpixel_edges(img, threshold, iters, order,mask=None):
+def subpixel_edges(img, threshold, iters, order,mask=None,non_maximum=False):
     """
     Detects subpixel features for each pixel belonging to an edge in `img`.
 
@@ -51,6 +51,7 @@ def subpixel_edges(img, threshold, iters, order,mask=None):
             1:  first order edges (straight lines)
             2:  second order edges (default)
     mask: Remove unnecessary masked regions(2D)
+    non_maximum: Reduce the number of edge points
     Returns
     -------
     An instance of EdgePixel
@@ -70,9 +71,9 @@ def subpixel_edges(img, threshold, iters, order,mask=None):
             raise ValueError("mask与图像大小不一致")
 
     if iters == 0:
-        return main_iter0(img, threshold, order, mask)
+        return main_iter0(img, threshold, order, mask,non_maximum)
     elif iters == 1:
-        return main_iter1(img, threshold, order, mask)
+        return main_iter1(img, threshold, order, mask,non_maximum)
     elif iters > 1:
         for iterN in range(iters):
             ep, img = main_iterN(img, threshold, iters, order)

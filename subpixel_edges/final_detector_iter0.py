@@ -1,10 +1,10 @@
 import numpy as np
 import cv2
 from subpixel_edges.edgepixel import EdgePixel
-from subpixel_edges.edges_iter0 import h_edges, v_edges
+from subpixel_edges.edges_iter0 import h_edges, v_edges, non_maximum_suppression
 
 
-def main_iter0(F, threshold, order, mask):
+def main_iter0(F, threshold, order, mask,non_maximum):
     ep = EdgePixel()
 
     rows, cols = np.shape(F)
@@ -39,6 +39,11 @@ def main_iter0(F, threshold, order, mask):
     if mask is not None:
         Ey[~mask] = False
         Ex[~mask] = False
+
+    # Add non-maximum suppression
+    if non_maximum:
+        Ey = non_maximum_suppression(grad, Ey)
+        Ex = non_maximum_suppression(grad, Ex)
 
     Ey = Ey.ravel('F')
     Ex = Ex.ravel('F')
